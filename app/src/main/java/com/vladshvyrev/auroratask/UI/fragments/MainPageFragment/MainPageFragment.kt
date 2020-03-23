@@ -1,21 +1,16 @@
 package com.vladshvyrev.auroratask.UI.fragments.MainPageFragment
 
-import android.content.Context
+
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.*
-import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.vladshvyrev.auroratask.MainActivity
 import com.vladshvyrev.auroratask.R
 import com.vladshvyrev.auroratask.Repository.network.Data
+import com.vladshvyrev.auroratask.Repository.network.DataForFilter
 import com.vladshvyrev.auroratask.UI.fragments.EventClass
 import kotlinx.android.synthetic.main.fragment_main_page.*
 import org.greenrobot.eventbus.EventBus
@@ -28,13 +23,14 @@ class MainPageFragment : Fragment()  {
     lateinit var filteredList: ArrayList<Data>
 //
     var data :ArrayList<String>? = null
+
     @Subscribe(threadMode =ThreadMode.MAIN)
-    fun onMessage(event : EventClass)
-    {
+    fun onMessage(event : EventClass) {
             data =ArrayList()
             data?.addAll(event.mValue)
 
     }
+
 
     override fun onStart() {
 
@@ -42,9 +38,7 @@ class MainPageFragment : Fragment()  {
             EventBus.getDefault().register(this)
         }
 
-
         super.onStart()
-
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,11 +72,24 @@ class MainPageFragment : Fragment()  {
 //            }
 //        })
         filter_but.setOnClickListener{
-            activity!!.supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container,FilterFragment())
-                .addToBackStack("8")
-                .commit()
+            var dataFilters = DataForFilter("","")
+            if(data !=null)
+            {
+                if(data!!.size == 1)
+                {
+                    if(data!![0] == "Hero" || data!![0] =="Villain)")
+                    {
+                        dataFilters.heroOrVillain = data!![0]
+                    }
+                    else{
+                        dataFilters.marvelOrDC =data!![0]
+                    }
+                }else{
+                    dataFilters.heroOrVillain = data!![0]
+                    dataFilters.marvelOrDC = data!![1]
+                }
+            }
+            (activity as MainActivity).getFilters(dataFilters)
         }
     }
 

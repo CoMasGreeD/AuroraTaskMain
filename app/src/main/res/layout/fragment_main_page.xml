@@ -4,16 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:id="@+id/buff1"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:id="@+id/buff2"/>
+
 
     <TextView
         android:id="@+id/title"
@@ -34,17 +25,17 @@
         android:layout_toEndOf="@+id/title"
         android:text="Filter" />
 
-    <EditText
-        android:id="@+id/filter_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title" />
+<!--    <EditText-->
+<!--        android:id="@+id/filter_text"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/title" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/filter_text"
+        android:layout_below="@+id/title"
         android:layout_margin="10dp"
         android:layout_marginBottom="30sp"
         android:padding="10sp" />

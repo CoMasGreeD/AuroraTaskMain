@@ -1,7 +1,7 @@
 package com.vladshvyrev.auroratask.UI.fragments.MainPageFragment
 
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 
 import androidx.fragment.app.Fragment
@@ -12,8 +12,9 @@ import com.bumptech.glide.Glide
 import com.vladshvyrev.auroratask.MainActivity
 import com.vladshvyrev.auroratask.R
 import com.vladshvyrev.auroratask.Repository.network.Data
-import com.vladshvyrev.auroratask.UI.fragments.FilterFragment.FilterViewModel
+import com.vladshvyrev.auroratask.Repository.network.DataForFilter
 import com.vladshvyrev.auroratask.UI.fragments.EventClass
+import com.vladshvyrev.auroratask.UI.fragments.FilterFragment.FilterViewModel
 import kotlinx.android.synthetic.main.fragment_filter.*
 import org.greenrobot.eventbus.EventBus
 
@@ -23,6 +24,22 @@ class FilterFragment : Fragment() {
     lateinit var viewModel: FilterViewModel
     private lateinit var blogAdapter: DataAdapterForFilter
     lateinit var filteredList: ArrayList<Data>
+
+    companion object {
+        private const val FILTER_KEY = "filters"
+        fun getInstance(email: DataForFilter): FilterFragment {
+            val bundle = Bundle()
+            bundle.putSerializable(FILTER_KEY, email)
+            val filteredFr = FilterFragment()
+            filteredFr.arguments = bundle
+            return filteredFr
+        }
+    }
+    private lateinit var bundle: Bundle
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        bundle = arguments!!
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,71 +56,85 @@ class FilterFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(FilterViewModel::class.java)
         viewModel.characterListLiveData.observe(this, observer)
         //initRecyclerView()
+        var data : DataForFilter = arguments?.getSerializable("filters") as DataForFilter
+        if(data.heroOrVillain == "Hero" )
+        {
+            hero_check.isChecked =true
+            villain_check.isEnabled = false
+        }
+        if(data.heroOrVillain == "Villain")
+        {
+            villain_check.isChecked =true
+            hero_check.isEnabled = false
+        }
+        if(data.marvelOrDC == "Marvel")
+        {
+            marvel_check.isChecked =true
+            dc_check.isEnabled = false
+        }
+        if(data.marvelOrDC == "DC")
+        {
+            dc_check.isChecked =true
+            marvel_check.isEnabled = false
+        }
+
         Glide.with(this).load(R.drawable.backmarv).into(fon_image)
         show_list.setOnClickListener {
             chooseCategory()
-            }
+        }
 
     }
 
     private fun chooseCategory() {
-        when{
-            hero_check.isChecked && !marvel_check.isChecked && !dc_check.isChecked ->
-            {
-                var input  = ArrayList<String>()
+        when {
+            hero_check.isChecked && !marvel_check.isChecked && !dc_check.isChecked -> {
+                var input = ArrayList<String>()
                 input.add(hero_check.text.toString())
                 sendFilters(input)
                 activity!!.supportFragmentManager.popBackStack()
             }
-            hero_check.isChecked && marvel_check.isChecked  ->
-            {
-                var input  = ArrayList<String>()
+            hero_check.isChecked && marvel_check.isChecked -> {
+                var input = ArrayList<String>()
                 input.add(hero_check.text.toString())
                 input.add(marvel_check.text.toString())
                 sendFilters(input)
                 activity!!.supportFragmentManager.popBackStack()
             }
-            hero_check.isChecked && dc_check.isChecked  ->
-            {
-                var input  = ArrayList<String>()
+            hero_check.isChecked && dc_check.isChecked -> {
+                var input = ArrayList<String>()
                 input.add(hero_check.text.toString())
                 input.add(dc_check.text.toString())
                 sendFilters(input)
                 activity!!.supportFragmentManager.popBackStack()
             }
-            villain_check.isChecked && !marvel_check.isChecked && !dc_check.isChecked ->
-            {
-                var input  = ArrayList<String>()
+            villain_check.isChecked && !marvel_check.isChecked && !dc_check.isChecked -> {
+                var input = ArrayList<String>()
                 input.add(villain_check.text.toString())
                 sendFilters(input)
                 activity!!.supportFragmentManager.popBackStack()
             }
-            villain_check.isChecked && marvel_check.isChecked  ->
-            {
-                var input  = ArrayList<String>()
+            villain_check.isChecked && marvel_check.isChecked -> {
+                var input = ArrayList<String>()
                 input.add(villain_check.text.toString())
                 input.add(marvel_check.text.toString())
                 sendFilters(input)
                 activity!!.supportFragmentManager.popBackStack()
             }
-            villain_check.isChecked && dc_check.isChecked  ->
-            {
-                var input  = ArrayList<String>()
+            villain_check.isChecked && dc_check.isChecked -> {
+                var input = ArrayList<String>()
                 input.add(villain_check.text.toString())
                 input.add(dc_check.text.toString())
                 sendFilters(input)
                 activity!!.supportFragmentManager.popBackStack()
             }
-            marvel_check.isChecked && !hero_check.isChecked && !villain_check.isChecked->
-            {
-                var input  = ArrayList<String>()
+            marvel_check.isChecked && !hero_check.isChecked && !villain_check.isChecked -> {
+                var input = ArrayList<String>()
                 input.add(marvel_check.text.toString())
                 sendFilters(input)
                 activity!!.supportFragmentManager.popBackStack()
             }
-            dc_check.isChecked && !hero_check.isChecked && !villain_check.isChecked ->
-            {
-                var input  = ArrayList<String>()
+            dc_check.isChecked && !hero_check.isChecked && !villain_check.isChecked -> {
+                var input = ArrayList<String>()
                 input.add(dc_check.text.toString())
                 sendFilters(input)
                 activity!!.supportFragmentManager.popBackStack()
@@ -111,9 +142,10 @@ class FilterFragment : Fragment() {
         }
     }
 
-    private fun sendFilters(input :ArrayList<String>) {
+    private fun sendFilters(input: ArrayList<String>) {
         EventBus.getDefault().post(EventClass(input))
     }
+
 
     override fun onResume() {
         viewModel.getList()
@@ -124,7 +156,7 @@ class FilterFragment : Fragment() {
 
     private fun allCheck() {
         hero_check.setOnCheckedChangeListener { compoundButton, b ->
-            if(!hero_check.isChecked) {
+            if (!hero_check.isChecked) {
                 villain_check.isEnabled = true
                 when {
                     marvel_check.isChecked -> show_list.text = countMarvel().toString()
@@ -147,7 +179,7 @@ class FilterFragment : Fragment() {
             }
         }
         villain_check.setOnCheckedChangeListener { compoundButton, b ->
-            if(!villain_check.isChecked) {
+            if (!villain_check.isChecked) {
                 hero_check.isEnabled = true
                 when {
                     marvel_check.isChecked -> show_list.text = countMarvel().toString()
@@ -170,7 +202,7 @@ class FilterFragment : Fragment() {
             }
         }
         marvel_check.setOnCheckedChangeListener { compoundButton, b ->
-            if(!marvel_check.isChecked) {
+            if (!marvel_check.isChecked) {
                 dc_check.isEnabled = true
                 when {
                     hero_check.isChecked -> show_list.text = countHero().toString()
@@ -193,7 +225,7 @@ class FilterFragment : Fragment() {
             }
         }
         dc_check.setOnCheckedChangeListener { compoundButton, b ->
-            if(!dc_check.isChecked) {
+            if (!dc_check.isChecked) {
                 marvel_check.isEnabled = true
                 when {
                     hero_check.isChecked -> show_list.text = countHero().toString()
@@ -202,7 +234,7 @@ class FilterFragment : Fragment() {
                 }
 
             }
-            if(dc_check.isChecked) {
+            if (dc_check.isChecked) {
                 marvel_check.isEnabled = false
                 if (hero_check.isChecked) {
                     show_list.text = countHeroWithDC().toString()
