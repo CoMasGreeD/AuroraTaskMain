@@ -35,9 +35,9 @@ class RemoteRepository private constructor() : Repository {
 
     override fun getList(): Single<List<Data>> = api.getList().subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
 
-    override fun getUserId(id: String?): Call<Data> = api.getUserId(
+    override fun getUserId(id: String?): Single<Data> = api.getUserId(
         id
-    )
+    ).subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
 
 //
     private fun createApi() {

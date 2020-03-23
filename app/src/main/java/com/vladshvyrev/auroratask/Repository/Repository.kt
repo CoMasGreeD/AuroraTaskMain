@@ -6,5 +6,5 @@ import retrofit2.Call
 
 interface Repository {
     fun getList(): Single<List<Data>>
-    fun getUserId(id: String?):Call<Data>
+    fun getUserId(id: String?):Single<Data>
 }

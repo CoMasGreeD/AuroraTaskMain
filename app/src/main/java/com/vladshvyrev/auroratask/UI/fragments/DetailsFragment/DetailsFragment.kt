@@ -43,7 +43,7 @@ class DetailsFragment:Fragment() {
     }
     private fun observeStatus() {
         viewModel = ViewModelProviders.of(this).get(DetailsViewModel::class.java)
-        viewModel.userListLiveData.observe(this, observer)
+        viewModel.userLiveData.observe(this, observer)
         arguments?.getString("id")?.let {
             viewModel.getUserId(it)
         }

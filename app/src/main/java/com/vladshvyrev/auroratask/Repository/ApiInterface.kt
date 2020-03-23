@@ -16,5 +16,5 @@ interface ApiInterface {
     @GET("CoMasGreeD/AuroraTask/characters/{userId}")
     fun getUserId(
         @Path("userId") id: String?
-    ): Call<Data>
+    ): Single<Data>
 }

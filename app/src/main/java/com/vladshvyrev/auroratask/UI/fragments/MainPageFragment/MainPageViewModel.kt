@@ -17,19 +17,6 @@ class MainPageViewModel : ViewModel() {
         }, { Error ->
             Log.d("DATA", "ERROR  " + Thread.currentThread().toString())
         })
-//            .enqueue(object : Callback<List<Data>> {
-//                override fun onFailure(call: Call<List<Data>>, t: Throwable) {
-//
-//                }
-//
-//                override fun onResponse(
-//                    call: Call<List<Data>>,
-//                    response: Response<List<Data>>
-//                ) {
-//                    userListLiveData.postValue(response.body())
-//                }
-//            }
-//            )
     }
 
 
