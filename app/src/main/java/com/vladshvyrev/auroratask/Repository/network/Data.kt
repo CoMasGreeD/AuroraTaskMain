@@ -1,6 +1,6 @@
 package com.vladshvyrev.auroratask.Repository.network
 
-class Data (
+data class Data (
     var id : Int?= null,
     var name : String?= null,
     var hero_or_villain: String?= null,

@@ -13,18 +13,18 @@ class FilterViewModel : ViewModel() {
     val characterListLiveData = MutableLiveData<List<Data>>()
     fun getList() {
         repository.getList()
-            .enqueue(object : Callback<List<Data>> {
-                override fun onFailure(call: Call<List<Data>>, t: Throwable) {
-
-                }
-
-                override fun onResponse(
-                    call: Call<List<Data>>,
-                    response: Response<List<Data>>
-                ) {
-                    characterListLiveData.postValue(response.body())
-                }
-            }
-            )
+//            .enqueue(object : Callback<List<Data>> {
+//                override fun onFailure(call: Call<List<Data>>, t: Throwable) {
+//
+//                }
+//
+//                override fun onResponse(
+//                    call: Call<List<Data>>,
+//                    response: Response<List<Data>>
+//                ) {
+//                    characterListLiveData.postValue(response.body())
+//                }
+//            }
+//            )
     }
 }

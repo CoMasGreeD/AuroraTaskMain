@@ -1,15 +1,18 @@
 package com.vladshvyrev.auroratask.Repository
 
 
+
 import com.vladshvyrev.auroratask.Repository.network.Data
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
+import io.reactivex.Single
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.ScheduledFuture
+
 
 class RemoteRepository private constructor() : Repository {
 
@@ -27,17 +30,21 @@ class RemoteRepository private constructor() : Repository {
         }
     }
     private lateinit var api: ApiInterface
-    override fun getList(): Call<List<Data>> = api.getList()
-        //.subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.)
+
+
+
+    override fun getList(): Single<List<Data>> = api.getList().subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+
     override fun getUserId(id: String?): Call<Data> = api.getUserId(
         id
     )
 
+//
     private fun createApi() {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://my-json-server.typicode.com/")
             .addConverterFactory(GsonConverterFactory.create())
-           // .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(OkHttpClient.Builder().apply {
                 addInterceptor(HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
@@ -45,5 +52,10 @@ class RemoteRepository private constructor() : Repository {
             }.build())
             .build()
         api = retrofit.create(ApiInterface::class.java)
+//    api.getList()
+//        .subscribeOn(Schedulers.io())
+//        .unsubscribeOn(Schedulers.computation())
+//        .observeOn(AndroidSchedulers.mainThread())
+//        .subscribe()
     }
 }
