@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/main_image"
+        android:layout_width="200sp"
+        android:layout_height="230sp"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:id="@+id/name_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="20sp"
+        android:layout_toEndOf="@+id/main_image"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/hero_or_villain_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name_detail"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="10sp"
+        android:layout_toEndOf="@+id/main_image"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/marv_dc_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hero_or_villain_detail"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="10sp"
+        android:layout_toEndOf="@+id/main_image" />
+
+    <ImageView
+        android:id="@+id/image_icon"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/marv_dc_detail"
+        android:layout_toEndOf="@+id/main_image" />
+
+    <TextView
+        android:id="@+id/details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_image"
+        android:layout_margin="10sp" />
+
+</RelativeLayout>

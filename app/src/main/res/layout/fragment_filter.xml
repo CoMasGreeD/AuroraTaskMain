@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkboxes">
+        <CheckBox
+        android:id="@+id/hero_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="110sp"
+        android:layout_marginTop="20sp"
+        android:text="Hero" />
+
+        <CheckBox
+            android:id="@+id/marvel_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hero_check"
+            android:layout_marginStart="40sp"
+            android:layout_marginTop="40sp"
+            android:text="Marvel" />
+
+        <CheckBox
+            android:id="@+id/villain_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20sp"
+            android:layout_toEndOf="@+id/hero_check"
+            android:text="Villain" />
+
+        <CheckBox
+            android:id="@+id/dc_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hero_check"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="40sp"
+            android:layout_marginEnd="60sp"
+            android:text="DC" />
+    </RelativeLayout>
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_marginStart="10sp"-->
+    <!--        android:layout_marginEnd="10sp"-->
+    <!--        android:layout_height="530sp"-->
+    <!--        android:id="@+id/fon_image"-->
+    <!--        android:layout_below="@+id/marvel_check"-->
+    <!--        />-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/filter_list"
+        android:layout_width="match_parent"
+        android:layout_height="500sp"
+        android:layout_below="@+id/checkboxes"
+        android:layout_marginStart="10sp"
+        android:layout_marginEnd="10sp" />
+
+    <Button
+        android:id="@+id/show_list"
+        android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:layout_below="@+id/filter_list"
+        android:layout_alignParentBottom="true"
+        android:text="kolvo" />
+</RelativeLayout>

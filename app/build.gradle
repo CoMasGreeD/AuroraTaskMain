@@ -1,0 +1,98 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    defaultConfig {
+        applicationId "com.vladshvyrev.auroratask"
+        minSdkVersion 22
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    def room_version = "2.2.2"
+    final RetrofitVersion = '2.6.2'
+    def cardview_version = "1.0.0"
+    def lifecycle_version = "1.1.1"
+    def recyclerview_version = "1.1.0"
+    final CoroutinesVersion = '0.27.0-eap13'
+    final CoroutinesAdapterVersion = '0.9.2'
+    apply plugin: 'kotlin-kapt'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation "com.squareup.retrofit2:retrofit:$RetrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$RetrofitVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$CoroutinesVersion"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$CoroutinesAdapterVersion"
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
+    implementation 'com.google.android.material:material:1.0.0'
+
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+
+//    implementation "android.arch.lifecycle:extensions:1.1.1"
+//    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+//    implementation "android.arch.persistence.room:runtime:$room_version"
+//    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+
+    implementation "androidx.room:room-ktx:$room_version"
+
+    implementation "org.koin:koin-android:2.0.1"
+    implementation 'org.koin:koin-androidx-viewmodel:2.0.1'
+    implementation 'org.koin:koin-androidx-scope:2.0.1'
+
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+
+    implementation "androidx.paging:paging-runtime:2.1.1"
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1'
+
+    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation "androidx.room:room-guava:$room_version"
+
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    kapt "android.arch.lifecycle:compiler:$lifecycle_version"
+
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+
+    api 'com.squareup.okhttp3:logging-interceptor:3.12.3'
+
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
+
+    implementation 'org.greenrobot:eventbus:3.0.0'
+}
