@@ -44,14 +44,14 @@
             android:text="DC" />
     </RelativeLayout>
 
-    <!--    <ImageView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_marginStart="10sp"-->
-    <!--        android:layout_marginEnd="10sp"-->
-    <!--        android:layout_height="530sp"-->
-    <!--        android:id="@+id/fon_image"-->
-    <!--        android:layout_below="@+id/marvel_check"-->
-    <!--        />-->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_marginStart="10sp"
+            android:layout_marginEnd="10sp"
+            android:layout_height="530sp"
+            android:id="@+id/fon_image"
+            android:layout_below="@+id/checkboxes"
+            />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/filter_list"
         android:layout_width="match_parent"

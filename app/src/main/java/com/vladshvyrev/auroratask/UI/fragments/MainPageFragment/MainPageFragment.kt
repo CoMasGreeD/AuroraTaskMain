@@ -63,20 +63,20 @@ class MainPageFragment : Fragment()  {
         viewModel.getList()
         initRecyclerView()
 
-        var edit = filter_text
-        edit.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                filter(s.toString())
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-        })
+//        var edit = filter_text
+//        edit.addTextChangedListener(object : TextWatcher {
+//            override fun afterTextChanged(s: Editable?) {
+//                filter(s.toString())
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//
+//            }
+//        })
         filter_but.setOnClickListener{
             activity!!.supportFragmentManager
                 .beginTransaction()
@@ -86,13 +86,33 @@ class MainPageFragment : Fragment()  {
         }
     }
 
-    fun filter(text: String) {
+    fun filter(filterList: ArrayList<String>, list : List<Data>) {
         var buffList = ArrayList<Data>()
-        for (item in filteredList) {
-            if (item.hero_or_villain!!.toLowerCase().contains(text.toLowerCase())) {
-                buffList.add(item)
+        if(filterList.size == 1) {
+            if(filterList[0]== "Hero" || filterList[0] == "Villain") {
+                for (item in list) {
+                    if (item.hero_or_villain!!.toLowerCase().contains(filterList[0].toLowerCase())) {
+                        buffList.add(item)
+                    }
+                }
+            }
+            else{
+                for (item in list) {
+                    if (item.marvel_or_dc!!.toLowerCase().contains(filterList[0].toLowerCase())) {
+                        buffList.add(item)
+                    }
+                }
             }
         }
+        else{
+                for (item in list) {
+                    if (item.hero_or_villain!!.toLowerCase().contains(filterList[0].toLowerCase())
+                        && item.marvel_or_dc!!.toLowerCase().contains(filterList[1].toLowerCase())) {
+                        buffList.add(item)
+                    }
+                }
+        }
+
 
         blogAdapter.filteredList(buffList)
 
@@ -100,7 +120,6 @@ class MainPageFragment : Fragment()  {
     }
 
     override fun onResume() {
-
         super.onResume()
     }
     override fun onDestroy() {
@@ -113,11 +132,11 @@ class MainPageFragment : Fragment()  {
     }
 
     private val observer = Observer<List<Data>> { response ->
-        filteredList.addAll(response)
-
-        addDataSet(response)
         if(data != null){
-        filter(data!![0])}
+        filter(data!!,response)}
+        else{
+            addDataSet(response)
+        }
 
     }
 
