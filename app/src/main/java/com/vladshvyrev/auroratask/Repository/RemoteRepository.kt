@@ -3,11 +3,11 @@ package com.vladshvyrev.auroratask.Repository
 
 
 import com.vladshvyrev.auroratask.Repository.network.Data
+import com.vladshvyrev.auroratask.Repository.network.DataForFilter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
 import retrofit2.Retrofit
 import io.reactivex.Single
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -38,6 +38,8 @@ class RemoteRepository private constructor() : Repository {
     override fun getUserId(id: String?): Single<Data> = api.getUserId(
         id
     ).subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+
+
 
 //
     private fun createApi() {

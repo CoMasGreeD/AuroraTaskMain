@@ -19,10 +19,8 @@ import kotlinx.android.synthetic.main.fragment_filter.*
 import org.greenrobot.eventbus.EventBus
 
 
-
 class FilterFragment : Fragment() {
     lateinit var viewModel: FilterViewModel
-    private lateinit var blogAdapter: DataAdapterForFilter
     lateinit var filteredList: ArrayList<Data>
 
     companion object {
@@ -35,7 +33,9 @@ class FilterFragment : Fragment() {
             return filteredFr
         }
     }
+
     private lateinit var bundle: Bundle
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bundle = arguments!!
@@ -55,28 +55,8 @@ class FilterFragment : Fragment() {
         filteredList = ArrayList()
         viewModel = ViewModelProviders.of(this).get(FilterViewModel::class.java)
         viewModel.characterListLiveData.observe(this, observer)
-        //initRecyclerView()
-        var data : DataForFilter = arguments?.getSerializable("filters") as DataForFilter
-        if(data.heroOrVillain == "Hero" )
-        {
-            hero_check.isChecked =true
-            villain_check.isEnabled = false
-        }
-        if(data.heroOrVillain == "Villain")
-        {
-            villain_check.isChecked =true
-            hero_check.isEnabled = false
-        }
-        if(data.marvelOrDC == "Marvel")
-        {
-            marvel_check.isChecked =true
-            dc_check.isEnabled = false
-        }
-        if(data.marvelOrDC == "DC")
-        {
-            dc_check.isChecked =true
-            marvel_check.isEnabled = false
-        }
+        var data: DataForFilter = arguments?.getSerializable("filters") as DataForFilter
+        checkArguments(data)
 
         Glide.with(this).load(R.drawable.backmarv).into(fon_image)
         show_list.setOnClickListener {
@@ -139,6 +119,11 @@ class FilterFragment : Fragment() {
                 sendFilters(input)
                 activity!!.supportFragmentManager.popBackStack()
             }
+            !marvel_check.isChecked && !dc_check.isChecked && !hero_check.isChecked && !villain_check.isChecked ->{
+                var input = ArrayList<String>()
+                sendFilters(input)
+                activity!!.supportFragmentManager.popBackStack()
+            }
         }
     }
 
@@ -146,7 +131,24 @@ class FilterFragment : Fragment() {
         EventBus.getDefault().post(EventClass(input))
     }
 
-
+    private fun checkArguments(data : DataForFilter) {
+        if (data.heroOrVillain == "Hero") {
+            hero_check.isChecked = true
+            villain_check.isEnabled = false
+        }
+        if (data.heroOrVillain == "Villain") {
+            villain_check.isChecked = true
+            hero_check.isEnabled = false
+        }
+        if (data.marvelOrDC == "Marvel") {
+            marvel_check.isChecked = true
+            dc_check.isEnabled = false
+        }
+        if (data.marvelOrDC == "DC") {
+            dc_check.isChecked = true
+            marvel_check.isEnabled = false
+        }
+    }
     override fun onResume() {
         viewModel.getList()
         allCheck()
@@ -249,31 +251,11 @@ class FilterFragment : Fragment() {
         }
     }
 
-    private fun addDataSet(data: List<Data>) {
-        blogAdapter.submitList(data)
-    }
 
     private val observer = Observer<List<Data>> { response ->
         filteredList.addAll(response)
-//        addDataSet(response)
-
     }
 
-    private fun initRecyclerView() {
-        context?.let {
-            filter_list.apply {
-                layoutManager = LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)
-                blogAdapter = DataAdapterForFilter { itemView: Data ->
-                    itemViewClicked(itemView)
-                }
-                adapter = blogAdapter
-            }
-        }
-    }
-
-    private fun itemViewClicked(itemView: Data) {
-        (activity as MainActivity).getId(itemView.id.toString())
-    }
 
     private fun countHero(): Int {
         var count = 0
@@ -301,10 +283,7 @@ class FilterFragment : Fragment() {
     private fun countHeroWithDC(): Int {
         var count = 0
         for (item in filteredList) {
-            if (item.hero_or_villain!!.toLowerCase().contains("hero") && item.marvel_or_dc!!.toLowerCase().contains(
-                    "dc"
-                )
-            ) {
+            if (item.hero_or_villain!!.toLowerCase().contains("hero") && item.marvel_or_dc!!.toLowerCase().contains("dc")) {
                 count++
             }
         }
@@ -324,10 +303,7 @@ class FilterFragment : Fragment() {
     private fun countVillainWithMarvel(): Int {
         var count = 0
         for (item in filteredList) {
-            if (item.hero_or_villain!!.toLowerCase().contains("villain") && item.marvel_or_dc!!.toLowerCase().contains(
-                    "marvel"
-                )
-            ) {
+            if (item.hero_or_villain!!.toLowerCase().contains("villain") && item.marvel_or_dc!!.toLowerCase().contains("marvel")) {
                 count++
             }
         }
@@ -337,10 +313,7 @@ class FilterFragment : Fragment() {
     private fun countVillainWithDC(): Int {
         var count = 0
         for (item in filteredList) {
-            if (item.hero_or_villain!!.toLowerCase().contains("villain") && item.marvel_or_dc!!.toLowerCase().contains(
-                    "dc"
-                )
-            ) {
+            if (item.hero_or_villain!!.toLowerCase().contains("villain") && item.marvel_or_dc!!.toLowerCase().contains("dc")) {
                 count++
             }
         }

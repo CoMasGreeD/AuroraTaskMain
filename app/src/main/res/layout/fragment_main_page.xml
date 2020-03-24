@@ -25,20 +25,15 @@
         android:layout_toEndOf="@+id/title"
         android:text="Filter" />
 
-<!--    <EditText-->
-<!--        android:id="@+id/filter_text"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/title" />-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="30sp"
-        android:padding="10sp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="30sp"
+            android:layout_below="@+id/title"
+            android:padding="10sp" />
 
 
 </RelativeLayout>

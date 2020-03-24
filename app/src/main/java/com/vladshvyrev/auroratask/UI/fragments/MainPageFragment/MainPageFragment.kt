@@ -3,24 +3,30 @@ package com.vladshvyrev.auroratask.UI.fragments.MainPageFragment
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vladshvyrev.auroratask.MainActivity
 import com.vladshvyrev.auroratask.R
 import com.vladshvyrev.auroratask.Repository.network.Data
 import com.vladshvyrev.auroratask.Repository.network.DataForFilter
 import com.vladshvyrev.auroratask.UI.fragments.EventClass
 import kotlinx.android.synthetic.main.fragment_main_page.*
+import kotlinx.android.synthetic.main.fragment_main_page.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class MainPageFragment : Fragment()  {
+
+
     lateinit var viewModel: MainPageViewModel
     private lateinit var blogAdapter: DataAdapterForMainPage
     lateinit var filteredList: ArrayList<Data>
+
 //
     var data :ArrayList<String>? = null
 
@@ -54,23 +60,10 @@ class MainPageFragment : Fragment()  {
         filteredList = ArrayList()
         viewModel = ViewModelProviders.of(this).get(MainPageViewModel::class.java)
         viewModel.userListLiveData.observe(this, observer)
+        viewModel.messageLivaDataError.observe(this,observerError)
         viewModel.getList()
         initRecyclerView()
 
-//        var edit = filter_text
-//        edit.addTextChangedListener(object : TextWatcher {
-//            override fun afterTextChanged(s: Editable?) {
-//                filter(s.toString())
-//            }
-//
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//
-//            }
-//        })
         filter_but.setOnClickListener{
             var dataFilters = DataForFilter("","")
             if(data !=null)
@@ -92,6 +85,8 @@ class MainPageFragment : Fragment()  {
             (activity as MainActivity).getFilters(dataFilters)
         }
     }
+
+
 
     fun filter(filterList: ArrayList<String>, list : List<Data>) {
         var buffList = ArrayList<Data>()
@@ -140,10 +135,18 @@ class MainPageFragment : Fragment()  {
 
     private val observer = Observer<List<Data>> { response ->
         if(data != null){
-        filter(data!!,response)}
+            if(data!!.size != 0)
+            {filter(data!!,response)}else{
+                addDataSet(response)
+            }}
         else{
             addDataSet(response)
         }
+
+
+    }
+    private val observerError = Observer<String> { response ->
+        Toast.makeText(context,response,Toast.LENGTH_SHORT).show()
 
     }
 
