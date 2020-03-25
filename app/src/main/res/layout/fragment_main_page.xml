@@ -6,6 +6,12 @@
 
 
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dag_frag"
+        android:text="go to Dagger"
+        android:layout_toStartOf="@+id/title"/>
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"

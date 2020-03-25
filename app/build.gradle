@@ -30,6 +30,7 @@ android {
 dependencies {
     def room_version = "2.2.2"
     final RetrofitVersion = '2.6.2'
+    def dagger_version = "2.17"
     def cardview_version = "1.0.0"
     def lifecycle_version = "1.1.1"
     def recyclerview_version = "1.1.0"
@@ -95,4 +96,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.6.1'
 
     implementation 'org.greenrobot:eventbus:3.0.0'
+
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
 }

@@ -8,14 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vladshvyrev.auroratask.MainActivity
 import com.vladshvyrev.auroratask.R
 import com.vladshvyrev.auroratask.Repository.network.Data
 import com.vladshvyrev.auroratask.Repository.network.DataForFilter
+import com.vladshvyrev.auroratask.UI.fragments.DetailsFragment.DetailsFragment
 import com.vladshvyrev.auroratask.UI.fragments.EventClass
+import com.vladshvyrev.auroratask.UI.fragments.ExampleDaggerFragment.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_main_page.*
-import kotlinx.android.synthetic.main.fragment_main_page.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -60,10 +60,15 @@ class MainPageFragment : Fragment()  {
         filteredList = ArrayList()
         viewModel = ViewModelProviders.of(this).get(MainPageViewModel::class.java)
         viewModel.userListLiveData.observe(this, observer)
-        viewModel.messageLivaDataError.observe(this,observerError)
+        viewModel.ErrorMessagesLivaData.observe(this,observerError)
         viewModel.getList()
         initRecyclerView()
-
+        dag_frag.setOnClickListener{
+            activity!!.supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container,DaggerFragment())
+                .commit()
+        }
         filter_but.setOnClickListener{
             var dataFilters = DataForFilter("","")
             if(data !=null)
