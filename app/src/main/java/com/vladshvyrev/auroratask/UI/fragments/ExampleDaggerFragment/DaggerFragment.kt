@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.vladshvyrev.auroratask.R
 import dagger.Component
+import dagger.Module
+import dagger.Provides
 import kotlinx.android.synthetic.main.fragment_dagger.*
 import javax.inject.Inject
 
@@ -22,6 +24,7 @@ class DaggerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        private var
         var component: BattleComponent = DaggerDaggerFragment_BattleComponent.create()
         var battle: Battle = component.getBattle()
         prepare.setOnClickListener {
@@ -39,9 +42,11 @@ class DaggerFragment : Fragment() {
     }
 
 
-    @Component
+    @Component (modules = Upgrade.class)
     interface BattleComponent {
         fun getBattle(): Battle
+        fun getStones(): Stones
+        fun getTechnology():Technology
     }
 
     class Heroes @Inject constructor() : characters {
@@ -79,6 +84,30 @@ class DaggerFragment : Fragment() {
             val strVillainReport = villains.reportAfterBattle()
             return "$strHeroReport and $strVillainReport"
         }
+    }
+
+
+    class Stones
+    {
+        init {
+            Stones()
+        }
+    }
+    class Technology {
+        init {
+            Technology()
+        }
+    }
+
+    @Module
+    class Upgrade(private var stones:Stones,private var technology:Technology)
+    {
+        @Provides
+        fun getStones():Stones{
+        return stones }
+        @Provides
+        fun getTechnology():Technology{
+            return technology }
 
     }
 }
