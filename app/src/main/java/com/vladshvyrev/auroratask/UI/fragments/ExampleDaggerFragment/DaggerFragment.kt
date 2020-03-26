@@ -24,15 +24,22 @@ class DaggerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        private var
-        var component: BattleComponent = DaggerDaggerFragment_BattleComponent.create()
+        var stones = Example.Stones()
+        var tech = Example.Technology()
+        var component: BattleComponent = DaggerDaggerFragment_BattleComponent.builder().upgradeModule(UpgradeModule(stones,tech)).build()
         var battle: Battle = component.getBattle()
+        stones = component.getStones()
+        tech = component.getTechnology()
         prepare.setOnClickListener {
             Toast.makeText(context, battle.prepare(), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, tech.getCostume(), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, stones.getPowerStone(), Toast.LENGTH_LONG).show()
         }
         report.setOnClickListener {
             Toast.makeText(context, battle.report(), Toast.LENGTH_LONG).show()
+
         }
+
     }
 
 
@@ -42,11 +49,11 @@ class DaggerFragment : Fragment() {
     }
 
 
-    @Component (modules = Upgrade.class)
+    @Component(modules = [UpgradeModule::class])
     interface BattleComponent {
         fun getBattle(): Battle
-        fun getStones(): Stones
-        fun getTechnology():Technology
+        fun getStones(): Example.Stones
+        fun getTechnology(): Example.Technology
     }
 
     class Heroes @Inject constructor() : characters {
@@ -87,27 +94,7 @@ class DaggerFragment : Fragment() {
     }
 
 
-    class Stones
-    {
-        init {
-            Stones()
-        }
-    }
-    class Technology {
-        init {
-            Technology()
-        }
-    }
 
-    @Module
-    class Upgrade(private var stones:Stones,private var technology:Technology)
-    {
-        @Provides
-        fun getStones():Stones{
-        return stones }
-        @Provides
-        fun getTechnology():Technology{
-            return technology }
 
-    }
+
 }
